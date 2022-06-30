@@ -13,11 +13,11 @@ import {
   Center,
   ScrollView,
   Fab,
+  AddIcon,
 } from 'native-base';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {MaterialIcons, Entypo} from '@expo/vector-icons';
 import {useQuery} from '../configs/realmContext';
-import {AntDesign} from '@expo/vector-icons';
 import CreateHabitScreen from './createHabit';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -57,7 +57,7 @@ export const HabitsScreen = ({navigation}: any) => {
         renderInPortal={false}
         shadow={2}
         size="sm"
-        icon={<Icon color="white" as={AntDesign} name="plus" size="sm" />}
+        icon={<AddIcon />}
         onPress={() => {
           navigation.navigate('CreateHabit');
         }}
