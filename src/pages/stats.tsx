@@ -1,7 +1,10 @@
 import React from 'react';
 import {Center, Heading, VStack} from 'native-base';
+import {useQuery} from '../configs/realmContext';
 
 const StatsScreen = () => {
+  const habits = useQuery('Habit');
+  console.debug('Poney Habits', habits);
   return (
     <Center
       _dark={{bg: 'blueGray.900'}}

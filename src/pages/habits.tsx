@@ -12,11 +12,30 @@ import {
   Spacer,
   Center,
   ScrollView,
+  Fab,
 } from 'native-base';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {MaterialIcons, Entypo} from '@expo/vector-icons';
+import {useQuery} from '../configs/realmContext';
+import {AntDesign} from '@expo/vector-icons';
+import CreateHabitScreen from './createHabit';
 
-const HabitsScreen = () => {
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+export const HabitsComponent = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Habits" component={HabitsScreen} />
+      <Stack.Screen name="CreateHabit" component={CreateHabitScreen} />
+    </Stack.Navigator>
+  );
+};
+
+export const HabitsScreen = ({navigation}: any) => {
+  const habits = useQuery('Habit');
+  console.debug('Poney Habits', habits);
   return (
     <Center
       _dark={{bg: 'blueGray.900'}}
@@ -34,10 +53,18 @@ const HabitsScreen = () => {
           <Done />
         </ScrollView>
       </VStack>
+      <Fab
+        renderInPortal={false}
+        shadow={2}
+        size="sm"
+        icon={<Icon color="white" as={AntDesign} name="plus" size="sm" />}
+        onPress={() => {
+          navigation.navigate('CreateHabit');
+        }}
+      />
     </Center>
   );
 };
-export default HabitsScreen;
 
 function ToDo() {
   const data = [
