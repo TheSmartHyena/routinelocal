@@ -1,26 +1,13 @@
 import React, {useState} from 'react';
 
-import {
-  Box,
-  Text,
-  Pressable,
-  Heading,
-  Icon,
-  HStack,
-  Avatar,
-  VStack,
-  Spacer,
-  Center,
-  ScrollView,
-  Fab,
-  AddIcon,
-} from 'native-base';
+import {Heading, VStack, Center, ScrollView, Fab, AddIcon} from 'native-base';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {MaterialIcons, Entypo} from '@expo/vector-icons';
 import {useQuery} from '../configs/realmContext';
 import CreateHabitScreen from './createHabit';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {renderItem} from './habitsComponents/renderItem';
+import {renderHiddenItem} from './habitsComponents/renderItemHidden';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,38 +23,8 @@ export const HabitsComponent = () => {
 export const HabitsScreen = ({navigation}: any) => {
   const habits = useQuery('Habit');
   console.debug('Poney Habits', habits);
-  return (
-    <Center
-      _dark={{bg: 'blueGray.900'}}
-      _light={{bg: 'blueGray.50'}}
-      px={4}
-      flex={1}>
-      <VStack space={5} alignItems="center">
-        <Heading size="lg">Todo</Heading>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <ToDo />
-        </ScrollView>
 
-        <Heading size="lg">Done</Heading>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Done />
-        </ScrollView>
-      </VStack>
-      <Fab
-        renderInPortal={false}
-        shadow={2}
-        size="sm"
-        icon={<AddIcon />}
-        onPress={() => {
-          navigation.navigate('CreateHabit');
-        }}
-      />
-    </Center>
-  );
-};
-
-function ToDo() {
-  const data = [
+  const todo = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
       fullName: 'Afreen Khan',
@@ -93,99 +50,7 @@ function ToDo() {
     },
   ];
 
-  const [listData] = useState(data);
-
-  const renderItem = ({item}: any) => (
-    <Box>
-      <Pressable
-        _dark={{
-          bg: 'coolGray.800',
-        }}
-        _light={{
-          bg: 'white',
-        }}>
-        <Box pl="4" pr="5" py="2">
-          <HStack alignItems="center" space={3}>
-            <Avatar
-              size="48px"
-              source={{
-                uri: item.avatarUrl,
-              }}
-            />
-            <VStack>
-              <Text
-                color="coolGray.800"
-                _dark={{
-                  color: 'warmGray.50',
-                }}
-                bold>
-                {item.fullName}
-              </Text>
-              <Text
-                color="coolGray.600"
-                _dark={{
-                  color: 'warmGray.200',
-                }}>
-                {item.recentText}
-              </Text>
-            </VStack>
-            <Spacer />
-            <Text
-              fontSize="xs"
-              color="coolGray.800"
-              _dark={{
-                color: 'warmGray.50',
-              }}
-              alignSelf="flex-start">
-              {item.timeStamp}
-            </Text>
-          </HStack>
-        </Box>
-      </Pressable>
-    </Box>
-  );
-
-  const renderHiddenItem = () => (
-    <HStack flex="1" pl="2">
-      <Pressable w="130" ml="auto" bg="green.500" justifyContent="center">
-        <VStack alignItems="center" space={2}>
-          <Icon
-            as={<Entypo name="dots-three-horizontal" />}
-            size="xs"
-            color="coolGray.800"
-          />
-          <Text fontSize="xs" fontWeight="medium" color="coolGray.800">
-            More
-          </Text>
-        </VStack>
-      </Pressable>
-      <Pressable w="130" bg="red.500" justifyContent="center">
-        <VStack alignItems="center" space={2}>
-          <Icon as={<MaterialIcons name="delete" />} color="white" size="xs" />
-          <Text color="white" fontSize="xs" fontWeight="medium">
-            Delete
-          </Text>
-        </VStack>
-      </Pressable>
-    </HStack>
-  );
-
-  return (
-    <SwipeListView
-      data={listData}
-      renderItem={renderItem}
-      renderHiddenItem={renderHiddenItem}
-      stopLeftSwipe={130}
-      disableLeftSwipe
-      previewRowKey={'0'}
-      previewOpenValue={-40}
-      previewOpenDelay={3000}
-    />
-  );
-}
-
-function Done() {
-  const data = [
+  const done = [
     {
       id: '68694a0f-3da1-431f-bd56-142371e29d72',
       fullName: 'Aniket Kumar',
@@ -204,93 +69,53 @@ function Done() {
     },
   ];
 
-  const [listData] = useState(data);
-
-  const renderItem = ({item}: any) => (
-    <Box>
-      <Pressable
-        _dark={{
-          bg: 'coolGray.800',
-        }}
-        _light={{
-          bg: 'white',
-        }}>
-        <Box pl="4" pr="5" py="2">
-          <HStack alignItems="center" space={3}>
-            <Avatar
-              size="48px"
-              source={{
-                uri: item.avatarUrl,
-              }}
-            />
-            <VStack>
-              <Text
-                color="coolGray.800"
-                _dark={{
-                  color: 'warmGray.50',
-                }}
-                bold>
-                {item.fullName}
-              </Text>
-              <Text
-                color="coolGray.600"
-                _dark={{
-                  color: 'warmGray.200',
-                }}>
-                {item.recentText}
-              </Text>
-            </VStack>
-            <Spacer />
-            <Text
-              fontSize="xs"
-              color="coolGray.800"
-              _dark={{
-                color: 'warmGray.50',
-              }}
-              alignSelf="flex-start">
-              {item.timeStamp}
-            </Text>
-          </HStack>
-        </Box>
-      </Pressable>
-    </Box>
-  );
-
-  const renderHiddenItem = () => (
-    <HStack flex="1" pl="2">
-      <Pressable w="130" ml="auto" bg="green.500" justifyContent="center">
-        <VStack alignItems="center" space={2}>
-          <Icon
-            as={<Entypo name="dots-three-horizontal" />}
-            size="xs"
-            color="coolGray.800"
-          />
-          <Text fontSize="xs" fontWeight="medium" color="coolGray.800">
-            More
-          </Text>
-        </VStack>
-      </Pressable>
-      <Pressable w="130" bg="red.500" justifyContent="center">
-        <VStack alignItems="center" space={2}>
-          <Icon as={<MaterialIcons name="delete" />} color="white" size="xs" />
-          <Text color="white" fontSize="xs" fontWeight="medium">
-            Delete
-          </Text>
-        </VStack>
-      </Pressable>
-    </HStack>
-  );
+  const [todoList] = useState(todo);
+  const [doneList] = useState(done);
 
   return (
-    <SwipeListView
-      data={listData}
-      renderItem={renderItem}
-      renderHiddenItem={renderHiddenItem}
-      stopRightSwipe={-130}
-      disableRightSwipe
-      previewRowKey={'0'}
-      previewOpenValue={-40}
-      previewOpenDelay={3000}
-    />
+    <Center
+      _dark={{bg: 'blueGray.900'}}
+      _light={{bg: 'blueGray.50'}}
+      px={4}
+      flex={1}>
+      <VStack space={5} alignItems="center">
+        <Heading size="lg">Todo</Heading>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <SwipeListView
+            data={todoList}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            stopLeftSwipe={130}
+            disableLeftSwipe
+            previewRowKey={'0'}
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+          />
+        </ScrollView>
+
+        <Heading size="lg">Done</Heading>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <SwipeListView
+            data={doneList}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            stopRightSwipe={-130}
+            disableRightSwipe
+            previewRowKey={'0'}
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+          />
+        </ScrollView>
+      </VStack>
+      <Fab
+        renderInPortal={false}
+        shadow={2}
+        size="sm"
+        icon={<AddIcon />}
+        onPress={() => {
+          navigation.navigate('CreateHabit');
+        }}
+      />
+    </Center>
   );
-}
+};
